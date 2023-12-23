@@ -25,7 +25,9 @@
         #centralImage img {
             width: 100%;
             border-radius: 5px;
-            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7);
+            
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7); /* Orange glow */
+
         }
         .polaroid {
             position: absolute;
@@ -34,6 +36,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             transition: transform 0.2s ease;
+            filter: blur(5px);
         }
         .polaroid img {
             display: block;
@@ -46,6 +49,58 @@
             margin-top: 75px;
             font-size: 16px;
         }
+
+        /* BLUR BUTTON*/
+        .switch {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+          z-index: 30;
+        }
+
+        .switch input { 
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .switch .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          transition: .4s;
+          border-radius: 34px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+        }
+
+        .switch .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for the slider knob */
+        }
+
+        input:checked + .slider {
+          background-color: #2196F3; /* Light blue when active */
+        }
+
+        input:checked + .slider:before {
+          transform: translateX(26px); /* Slide effect */
+        }
+
     </style>
 </head>
 <body>
@@ -53,6 +108,12 @@
         <img src="mods.jpg" alt="TE TQM MARIANUKI">
     </div>
     <div id="polaroidsContainer"></div>
+    <div class="switch-container">
+        <label class="switch">
+            <input type="checkbox" id="blurSwitch">
+            <span class="slider round"></span>
+        </label>
+    </div>
 
     <script>
         const imageUrls = [
@@ -119,6 +180,21 @@
             const text = polaroidTexts[index] || ' ';
             polaroidsContainer.appendChild(createPolaroid(url, text));
         });
+
+        /* BUTTON */
+        document.getElementById('blurSwitch').addEventListener('change', function() {
+            const polaroids = document.querySelectorAll('.polaroid');
+            polaroids.forEach(polaroid => {
+                if (this.checked) {
+                    polaroid.style.filter = 'none'; // No blur when checked
+                } else {
+                    polaroid.style.filter = 'blur(5px)'; // Apply blur when not checked
+                }
+            });
+        });
+
+        document.getElementById('blurSwitch').checked = false;
+
     </script>
 </body>
 </html>
