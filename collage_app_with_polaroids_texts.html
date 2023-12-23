@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaroid Collage with Texts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+        #centralImage {
+            position: absolute;
+            width: 30%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+        }
+        #centralImage img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .polaroid {
+            position: absolute;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+        .polaroid img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .polaroid-text {
+            text-align: center;
+            margin-top: 75px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="centralImage">
+        <img src="mods.jpg" alt="Central Image">
+    </div>
+    <div id="polaroidsContainer"></div>
+
+    <script>
+        const imageUrls = [
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            'https://i.pinimg.com/736x/5d/8d/4a/5d8d4abcc2239ea27ad48800959852aa.jpg',
+            // Add more image URLs here
+        ];
+        const polaroidTexts = [
+            // Add more texts here corresponding to each image
+        ];
+
+        function getRandomPosition() {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            return { x, y };
+        }
+
+        function createPolaroid(url, text) {
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = 'Polaroid';
+            
+            const polaroid = document.createElement('div');
+            polaroid.className = 'polaroid';
+            polaroid.appendChild(img);
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'polaroid-text';
+            textDiv.textContent = text;
+            polaroid.appendChild(textDiv);
+
+            const position = getRandomPosition();
+            polaroid.style.left = position.x + 'px';
+            polaroid.style.top = position.y + 'px';
+                polaroid.style.transform = 'rotate(' + (Math.random() * 60 - 30) + 'deg)';
+
+            return polaroid;
+        }
+
+        const polaroidsContainer = document.getElementById('polaroidsContainer');
+        imageUrls.forEach((url, index) => {
+            const text = polaroidTexts[index] || ' '; // Default text if not provided
+            polaroidsContainer.appendChild(createPolaroid(url, text));
+        });
+    </script>
+</body>
+</html>
